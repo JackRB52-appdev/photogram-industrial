@@ -7,8 +7,8 @@
 </div>
 
 <ul>
-<% @user.own_photos.each do |photo| %>
-  <%=  render "photos/photo", photo: photo %>
+  <% @user.liked_photos.each do |photo| %>
+    <%= render "photos/photo", photo: photo %>
 
-  <%end%>
+    <%end%>
 </ul>
