@@ -1,0 +1,14 @@
+<div class = "row">
+  <h1>
+    <%= @user.username%>
+  </h1>
+
+  <%= render "photos/nav_links" %>
+</div>
+
+<ul>
+<% @user.own_photos.each do |photo| %>
+  <%=  render "photos/photo", photo: photo %>
+
+  <%end%>
+</ul>

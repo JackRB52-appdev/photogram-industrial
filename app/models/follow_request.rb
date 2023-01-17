@@ -21,8 +21,19 @@
 #
 class FollowRequest < ApplicationRecord
 
+  validate :cannot_add_self
+  
+  validates :recipient_id, uniqueness: { scope: :sender_id, message: "already followed" }
+
   belongs_to :recipient, class_name: "User"
   belongs_to :sender, class_name: "User"
 
   enum status: { pending: "pending", rejected: "rejected", accepted: "accepted" }
+
+  private
+  
+    def cannot_add_self
+      errors.add(:recipient_id, 'You cannot add yourself as a friend.') if :recipient_id == :sender_id
+    end
+
 end

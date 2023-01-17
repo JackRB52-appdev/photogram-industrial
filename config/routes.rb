@@ -6,6 +6,13 @@ Rails.application.routes.draw do
   resources :follow_requests
   resources :likes
   resources :photos
-  
+
+  get ":username/liked" => "photos#liked", as: :liked_photos
+  get ":username/feed" => "photos#feed", as: :feed
+  get ":username/discover" => "photos#discover", as: :discover
+  get ":username/following" => "users#following", as: :following
+  get ":username/followers" => "users#followers", as: :followers
+
+  get ":username" => "users#show", as: :user
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

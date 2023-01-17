@@ -1,0 +1,11 @@
+<div class = "row">
+  <h1>
+    <%= @user.username%>
+  </h1>
+
+  <%= render "photos/nav_links" %>
+</div>
+
+<% @user.followers.each do |user| %>
+  <%= render "users/follow_list", user: user %>
+<%end%>

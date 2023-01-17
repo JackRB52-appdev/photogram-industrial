@@ -29,6 +29,10 @@ class Photo < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :fans, through: :likes, dependent: :destroy
 
+  def fan_list
+    @_fan_list ||= fans.pluck(:username).to_sentence
+  end
+
   scope :past_week, -> { where(created_at: 1.week.ago...) }
 
   scope :by_likes, -> { order(likes_count: :desc) }

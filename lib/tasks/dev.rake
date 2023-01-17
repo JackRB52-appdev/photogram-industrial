@@ -1,18 +1,31 @@
+desc "Fill the database tables with some sample data"
 task sample_data: :environment do
   starting = Time.now
+
   if Rails.env.development?
-    FollowRequest.destroy_all
-    User.destroy_all
+    FollowRequest.delete_all
+    Comment.delete_all
+    Like.delete_all
+    Photo.delete_all
+    User.delete_all
   end
 
   usernames = Array.new {Faker::Name.first_name}
 
-  10.times do
-    usernames << Faker::Name.first_name.downcase
-  end
+  # 10.times do
+  #   usernames << Faker::Name.first_name.downcase
+  # end
 
   usernames << "alice"
   usernames << "bob"
+  usernames << "sarah"
+  usernames << "rachel"
+  usernames << "ross"
+  usernames << "matt"
+  usernames << "joey"
+  usernames << "chandler"
+  usernames << "barney"
+  usernames << "ted"
 
   usernames.each do |username|
     User.create(
@@ -28,17 +41,17 @@ task sample_data: :environment do
   
   users.each do |first_user|
     users.each do |second_user|
-      if rand < 0.75
+      if rand < 0.9 && first_user != second_user
         first_user.sent_follow_requests.create(
           recipient: second_user,
-          status: FollowRequest.statuses.keys.sample
+          status: FollowRequest.statuses.values.sample
         )
       end
 
-      if rand < 0.75
+      if rand < 0.9 && first_user != second_user
         second_user.sent_follow_requests.create(
           recipient: first_user,
-          status: FollowRequest.statuses.keys.sample
+          status: FollowRequest.statuses.values.sample
         )
       end
     end
@@ -55,7 +68,7 @@ task sample_data: :environment do
       )
 
       user.followers.each do |follower|
-        if rand < 0.5
+        if rand < 0.6
           photo.fans << follower
         end
 
@@ -76,4 +89,5 @@ task sample_data: :environment do
   p "There are now #{Photo.count} photos."
   p "There are now #{Like.count} likes."
   p "There are now #{Comment.count} comments."
+
 end
